@@ -1,14 +1,14 @@
-# RhinoComputeJavaScriptTest
+# RhinoComputeJavaScriptSample
 Online Parametric column design via Rhino Compute Service
 
-Try it out at [https://ytakzk.github.io/RhinoComputeJavaScriptTest/](https://ytakzk.github.io/RhinoComputeJavaScriptTest/).
+Try it out at [https://ytakzk.github.io/RhinoComputeJavaScriptSample/](https://ytakzk.github.io/RhinoComputeJavaScriptSample/).
 
-![ScreenShot](https://github.com/ytakzk/RhinoComputeJavaScriptTest/raw/master/screenshot.png)
+![ScreenShot](https://github.com/ytakzk/RhinoComputeJavaScriptSample/raw/master/screenshot.png)
 
 ## How it works
 
 1. Get your Rhino token via [https://www.rhino3d.com/compute/login](https://www.rhino3d.com/compute/login)
-1. Copy the generated token and paste it into the prompt shown on [https://ytakzk.github.io/RhinoComputeJavaScriptTest/](https://ytakzk.github.io/RhinoComputeJavaScriptTest/)
+1. Copy the generated token and paste it into the prompt shown on [https://ytakzk.github.io/RhinoComputeJavaScriptSample/](https://ytakzk.github.io/RhinoComputeJavaScriptSample/)
 1. Feed model parameters through browsers
 1. Create some basic Rhino geometries with rhino3dm.js on the local computer (browser-based)
 1. Call RhinoCompute API to compute complicated stuffs and get a JSON file as a result
