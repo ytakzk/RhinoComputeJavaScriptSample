@@ -1,3 +1,7 @@
+//
+// GUI class for parametric modelling
+//
+
 export class GUI {
 
     constructor(updateCallback) {

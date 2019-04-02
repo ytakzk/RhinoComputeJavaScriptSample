@@ -1,13 +1,18 @@
-var rg
+//
+// Modeller class based on Three.js
+//
 
-export class Modeler {
+var rg // rhino3dm module will be stored
+
+export class Modeller {
 
     constructor() {
 
+      // authenticate with Rhino.Compute server
       RhinoCompute.authToken = RhinoCompute.getAuthToken()      
-      this.loaded = false
     }
 
+    // load rhino3dm module
     load(callback) {
 
       rhino3dm().then((module) => {
@@ -18,7 +23,8 @@ export class Modeler {
       })
 
     }
-
+    
+    // parametric modelling through Rhino.Compute API
     async compute(gui) {
 
       if (rg == null) { return }
@@ -31,16 +37,22 @@ export class Modeler {
       const top_phase     = parseFloat(gui.items.top_phase)
       const bottom_phase  = parseFloat(gui.items.bottom_phase)
 
-      // rhino operation
-      
+      //
+      // rhino3dm operation
+      //
+
+      // create pointlists
       var points1 = new rg.Point3dList(10)
       var points2 = new rg.Point3dList(10)
 
-      for (var i = 0; i < 30; i++) {
+      // generate column profiles
+      const n = 30
+      for (var i = 0; i < n; i++) {
 
-        const angle = i / 30 * Math.PI * 2.0
-        const topAngle     = i / 30 * Math.PI * 2.0 * top_freq
-        const bottomAngle  = i / 30 * Math.PI * 2.0 * bottom_freq
+        const angle        = i / n * Math.PI * 2.0
+
+        const topAngle     = i / n * Math.PI * 2.0 * top_freq
+        const bottomAngle  = i / n * Math.PI * 2.0 * bottom_freq
 
         const r1 = top_radius + top_radius * 0.2 * Math.sin(topAngle)
         const r2 = bottom_radius + bottom_radius * 0.2 * Math.sin(bottomAngle)
@@ -54,18 +66,22 @@ export class Modeler {
         points2.add(p2x, p2y, height * 0.5)
       }
 
+      // create nurbscurves from pointlists
       const curve1 = new rg.NurbsCurve.create(true, 3, points1)
       const curve2 = new rg.NurbsCurve.create(true, 3, points2)
 
-      var objects = await RhinoCompute.Brep.createDevelopableLoft(curve1, curve2, false, false, 20)
+      // loft the curves by calling RhinoCompute API (returns a JSON file)
+      var objects = await RhinoCompute.Brep.createDevelopableLoft(curve1, curve2, false, false, 5)
 
+      // decode the result
       const brep = objects.map(r => rg.CommonObject.decode(r))[0]
 
+      // create a mesh from the brep by calling RhinoCompute API
       var object = await RhinoCompute.Mesh.createFromBrep(brep)
 
-      // decode the json file returned from the API server
-      const meshes = object.map(r => rg.CommonObject.decode(r))
+      // decode it
+      const mesh = object.map(r => rg.CommonObject.decode(r))[0]
 
-      return meshes[0]
+      return mesh
     }
 }

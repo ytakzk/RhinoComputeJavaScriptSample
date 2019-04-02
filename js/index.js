@@ -1,34 +1,32 @@
 import {Renderer} from './render.js'
-import {Modeler} from './modeler.js'
+import {Modeller} from './modeller.js'
 import {GUI} from './gui.js'
+import {Loader} from './loader.js'
 
-function updated() {
+const loader    = new Loader()
+const renderer  = new Renderer()
+const modeller  = new Modeller()
 
-  Pace.start()
+// called when a new mesh is generated
+function update() {
 
-  modeler.compute(gui).then(mesh => {
+    // show a spinner
+    loader.show()
 
-    Pace.stop()
+    // compute via Rhino.Compute
+    modeller.compute(gui).then(mesh => {
+  
+      // dismiss the spinner
+      loader.dismiss()
 
-    renderer.render(mesh)
-  })
+      // render
+      renderer.render(mesh)
+  
+    })
 
 }
 
-const gui = new GUI(updated)
+const gui = new GUI(update)
 
-const renderer = new Renderer()
-const modeler  = new Modeler()
-
-modeler.load(_ => {
-
-  Pace.start()
-
-  modeler.compute(gui).then(mesh => {
-
-    Pace.stop()
-
-    renderer.render(mesh)
-  })
-
-})
+// load rhino3dm module
+modeller.load(update)

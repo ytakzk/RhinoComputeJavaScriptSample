@@ -37,7 +37,7 @@ export class Renderer {
 
         if (mesh == undefined) { return }
 
-        // Convert Rhino mesh to Three.js mesh for rendering
+        // Convert a Rhino mesh to a Three.js mesh for rendering
 
         const geometry = new THREE.BufferGeometry()
 
