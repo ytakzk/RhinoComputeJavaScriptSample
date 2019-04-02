@@ -16,7 +16,7 @@ Try it out at [https://ytakzk.github.io/RhinoComputeJavaScriptTest/](https://yta
 1. Convert the Rhino geometry into Three.js geometry
 1. Render it with Three.js
 
-# Dependencies
+## Dependencies
 
 ### Modelling
 * [rhino3dm.js](https://github.com/mcneel/rhino3dm/blob/master/RHINO3DM.JS.md)
